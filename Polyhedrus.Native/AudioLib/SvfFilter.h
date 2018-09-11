@@ -79,12 +79,12 @@ namespace AudioLib
 		inline void ProcessLinearHp2x(float* input, float* output, int len)
 		{
 			// local vars give a slight boost
-			register float lp;
-			register float hp;
-			register float zzState1 = zState1;
-			register float zzState2 = zState2;
-			register float ff = f;
-			register float dd = d;
+			float lp;
+			float hp;
+			float zzState1 = zState1;
+			float zzState2 = zState2;
+			float ff = f;
+			float dd = d;
 			
 			for (int i = 0; i < len; i++)
 			{

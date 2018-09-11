@@ -69,6 +69,11 @@ namespace Polyhedrus
 		case FilterMainParameters::Mode:
 			Mode = (float)value;
 			break;
+                
+        case FilterMainParameters::Keytrack:
+        case FilterMainParameters::Env:
+        case FilterMainParameters::Type:
+            break;
 		}
 	}
 

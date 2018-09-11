@@ -137,6 +137,9 @@ namespace Polyhedrus
 		case InternalFilterMode::Bp6_6:
 			c0 = 0.0; c1 = 1.0; c2 = -1.0; c3 = 0.0; c4 = 0.0;
 			break;
+                
+        case InternalFilterMode::Count:
+            break;
 		}
 	}
 
