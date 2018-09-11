@@ -9,7 +9,7 @@ namespace Polyhedrus
 	FilterCascadeZero::FilterCascadeZero()
 	{
 		Drive = 0.0;
-		Cutoff = 1.0;
+		Cutoff = 20000.0;
 		Resonance = 0.0;
 		ResonanceMod = 0.0;
 		CutoffMod = 0.0;
@@ -39,7 +39,7 @@ namespace Polyhedrus
 		fsinv = 1.0f / samplerate;
 		CvToFreq.Initialize((float)samplerate);
 
-		Cutoff = 1;
+		Cutoff = 20000;
 		Update();
 	}
 
@@ -89,10 +89,8 @@ namespace Polyhedrus
 		gainInv = gain < 1.0 ? std::sqrt(1.0f / gain) : 1.0f;
 		gainInv *= 2; // gain fudge;
 
-		// Voltage is 1V/OCt, C0 = 16.3516Hz
-		float voltage = Cutoff + CutoffMod;
-		voltage = AudioLib::Utils::Limit(voltage, 0.0f, 10.0f);
-		float fc = CvToFreq.GetFreqWarped(voltage);
+        // We're providing the Cutoff frequency in Hz
+        float fc = AudioLib::Utils::Limit(Cutoff, 0.0f, 20000.0f);
 
 		totalResonance = Resonance + ResonanceMod;
 		totalResonance = AudioLib::Utils::Limit(totalResonance, 0.0f, 1.0f);
