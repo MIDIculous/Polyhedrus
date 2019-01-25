@@ -14,7 +14,6 @@ namespace Polyhedrus
 		ResonanceMod = 0.0;
 		CutoffMod = 0.0;
 		DriveMod = 0.0;
-		buffer = 0;
 
 		k = 0;
 		uScaler = 0;
@@ -26,13 +25,13 @@ namespace Polyhedrus
 	}
 
 	FilterCascadeZero::~FilterCascadeZero()
-	{
-		delete buffer;
-	}
+	{}
 
 	void FilterCascadeZero::Initialize(int samplerate, int bufferSize, int modulationUpdateRate)
 	{
-		buffer = new float[bufferSize]();
+        if (bufferSize > buffer.size())
+            buffer.resize(bufferSize, 0);
+        
 		this->bufferSize = bufferSize;
 		this->modulationUpdateRate = modulationUpdateRate;
 		this->samplerate = samplerate;
@@ -46,6 +45,8 @@ namespace Polyhedrus
 	void FilterCascadeZero::Process(float* input, int len)
 	{
 		Update();
+        
+        jassert(len <= buffer.size());
 
 		for (int i = 0; i < len; i++)
 		{

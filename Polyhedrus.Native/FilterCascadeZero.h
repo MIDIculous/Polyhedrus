@@ -53,7 +53,7 @@ namespace Polyhedrus
 		CvFreq CvToFreq;
 
 	private:
-		float* buffer;
+        std::vector<float> buffer;
 		float gain;
 		float gainInv;
 		float totalResonance;
@@ -76,10 +76,13 @@ namespace Polyhedrus
 	public:
 		FilterCascadeZero();
 		~FilterCascadeZero();
+        
+        FilterCascadeZero(FilterCascadeZero&&) noexcept = default;
+        FilterCascadeZero& operator=(FilterCascadeZero&&) noexcept = default;
 
 		void Initialize(int samplerate, int bufferSize, int modulationUpdateRate);
 		void Process(float* input, int len);
-		inline float* GetOutput() { return buffer; }
+		inline float* GetOutput() { return buffer.data(); }
 		
 	private:
 		void ProcessSample(float input);

@@ -24,19 +24,17 @@ namespace Polyhedrus
 		ResonanceMod = 0.0;
 		CutoffMod = 0.0;
 		DriveMod = 0.0;
-		buffer = 0;
 		SetMode(InternalFilterMode::Lp24);
 	}
 
 	FilterCascade::~FilterCascade()
-	{
-		delete buffer;
-	}
+    {}
 
 	void FilterCascade::Initialize(int samplerate, int bufferSize, int modulationUpdateRate)
 	{
 		ComputeCVtoAlpha(samplerate);
-		buffer = new float[bufferSize]();
+        if (bufferSize > buffer.size())
+            buffer.resize(bufferSize, 0);
 		this->modulationUpdateRate = modulationUpdateRate;
 		this->samplerate = samplerate;
 		fsinv = 1.0f / (Oversample * samplerate);
@@ -49,6 +47,8 @@ namespace Polyhedrus
 	void FilterCascade::Process(float * input, int len)
 	{
 		Update();
+        
+        jassert(len <= buffer.size());
 		
 		for (int i = 0; i < len; i++)
 		{

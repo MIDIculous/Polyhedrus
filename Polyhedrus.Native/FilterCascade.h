@@ -22,7 +22,7 @@ namespace Polyhedrus
 		}
 
 	public:
-		const int Oversample = 2;
+		int Oversample = 2;
 
 		float Drive;
 		float Cutoff;
@@ -34,7 +34,7 @@ namespace Polyhedrus
 		float c0, c1, c2, c3, c4;
 
 	private:
-		float* buffer;
+        std::vector<float> buffer;
 		float gain;
 		float totalResonance;
 		float oversampledInput;
@@ -55,11 +55,13 @@ namespace Polyhedrus
 
 	public:
 		FilterCascade();
-		~FilterCascade();
+        ~FilterCascade();
+        FilterCascade(FilterCascade&&) noexcept = default;
+        FilterCascade& operator=(FilterCascade&&) noexcept = default;
 
 		void Initialize(int samplerate, int bufferSize, int modulationUpdateRate);
 		void Process(float* input, int len);
-		inline float* GetOutput() { return buffer; }
+		inline float* GetOutput() { return buffer.data(); }
 		void SetMode(InternalFilterMode mode);
 
 	private:
