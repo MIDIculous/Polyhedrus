@@ -36,7 +36,6 @@ namespace Polyhedrus
 		this->modulationUpdateRate = modulationUpdateRate;
 		this->samplerate = samplerate;
 		fsinv = 1.0f / samplerate;
-		CvToFreq.Initialize((float)samplerate);
 
 		Cutoff = 20000;
 		Update();

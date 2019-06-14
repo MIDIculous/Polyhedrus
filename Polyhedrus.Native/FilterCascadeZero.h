@@ -50,7 +50,6 @@ namespace Polyhedrus
 		float CutoffMod;
 		float ResonanceMod;
 		float DriveMod;
-		CvFreq CvToFreq;
 
 	private:
         std::vector<float> buffer;
