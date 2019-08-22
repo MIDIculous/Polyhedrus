@@ -4,14 +4,22 @@
 
 namespace Polyhedrus
 {
-	float FilterCascade::CVtoAlpha[CVtoAlphaSize];
+    std::unordered_map<int, std::array<float, FilterCascade::CVtoAlphaSize>> FilterCascade::CVtoAlphas;
 
 	void FilterCascade::ComputeCVtoAlpha(int samplerate)
 	{
-		double fsInv = 1.0 / samplerate;
-		for (int i = 0; i < CVtoAlphaSize; i++)
+        auto it = CVtoAlphas.find(samplerate);
+        if (it != CVtoAlphas.end())
+            return;
+            
+        it = CVtoAlphas.emplace(samplerate, std::array<float, FilterCascade::CVtoAlphaSize>{ 0.f }).first;
+        
+        auto& CVtoAlpha = it->second;
+        
+		const double fsInv = 1.0 / samplerate;
+		for (size_t i = 0; i != CVtoAlpha.size(); i++)
 		{
-			double freq = 440.0 * std::pow(2, (i*0.01 - 69.0 + 12) / 12);
+			const double freq = 440.0 * std::pow(2, (i*0.01 - 69.0 + 12) / 12);
 			CVtoAlpha[i] = (float)((1.0f - 2.0f * freq * fsInv) * (1.0f - 2.0f * freq * fsInv));
 		}
 	}
@@ -158,7 +166,7 @@ namespace Polyhedrus
 		float voltage = Cutoff + CutoffMod;
 		voltage = AudioLib::Utils::Limit(voltage, 0.0f, 10.3f);
 
-		p = CVtoAlpha[(int)(voltage * 1000.0)];
+		p = CVtoAlphas.at(samplerate)[(int)(voltage * 1000.0)];
 
 		gInv = sqrt(1.0f / gain);
 		mx = 1.0f / Oversample;

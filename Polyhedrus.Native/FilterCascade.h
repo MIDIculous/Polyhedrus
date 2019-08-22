@@ -2,6 +2,8 @@
 #define POLYHEDRUS_FILTER_CASCADE
 
 #include <cmath>
+#include <unordered_map>
+#include <array>
 #include "FilterInternalMode.h"
 
 namespace Polyhedrus
@@ -10,7 +12,7 @@ namespace Polyhedrus
 	{
 	private:
 		static const int CVtoAlphaSize = 10500;
-		static float CVtoAlpha[CVtoAlphaSize];
+        static std::unordered_map<int, std::array<float, CVtoAlphaSize>> CVtoAlphas;
 		static void ComputeCVtoAlpha(int samplerate);
 	public:
 		static inline float GetCvFreq(float cv)
