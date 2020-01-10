@@ -31,6 +31,13 @@ namespace Polyhedrus
 	{
         if (bufferSize > buffer.size())
             buffer.resize(bufferSize, 0);
+        else
+            buffer.assign(bufferSize, 0);
+        
+        for(auto* lp : { &lp1, &lp2, &lp3, &lp4 }) {
+            lp->y = 0.f;
+            lp->z1State = 0.f;
+        }
         
 		this->bufferSize = bufferSize;
 		this->modulationUpdateRate = modulationUpdateRate;

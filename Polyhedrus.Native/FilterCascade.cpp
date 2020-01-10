@@ -40,9 +40,15 @@ namespace Polyhedrus
 
 	void FilterCascade::Initialize(int samplerate, int bufferSize, int modulationUpdateRate)
 	{
+        x = a = b = c = d = oversampledInput = 0.f;
+        
 		ComputeCVtoAlpha(samplerate);
+        
         if (bufferSize > buffer.size())
             buffer.resize(bufferSize, 0);
+        else
+            buffer.assign(bufferSize, 0);
+        
 		this->modulationUpdateRate = modulationUpdateRate;
 		this->samplerate = samplerate;
 		fsinv = 1.0f / (Oversample * samplerate);
